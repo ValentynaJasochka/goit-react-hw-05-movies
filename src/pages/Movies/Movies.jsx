@@ -14,16 +14,14 @@ const Movies = () => {
 
   useEffect(() => {
     if (!currentMovie) {
-      // setSearch({});
       return;
     }
     setLoading(true);
     const fetchSearch = async () => {
       try {
-        const { results } = await fetchSearchMovies(search);
+        const { results } = await fetchSearchMovies(currentMovie);
 
         if (!results.length) {
-          // setSearch({});
           setMovies([]);
           toast.warn('No movie was found for your request');
           return;
@@ -37,7 +35,7 @@ const Movies = () => {
       }
     };
     fetchSearch();
-  }, [search, currentMovie]);
+  }, [currentMovie]);
 
   return (
     <>

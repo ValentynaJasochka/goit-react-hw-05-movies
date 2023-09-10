@@ -13,9 +13,11 @@ import {
 } from './MoviesDetails.styled';
 import { Loader } from 'components/Loader/Loader';
 
+const placeholder = 'https://placehold.jp/300x450.png';
+
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState({});
+  const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const backLinkHref = location.state;
@@ -35,6 +37,10 @@ const MovieDetails = () => {
     fetchMovieID();
   }, [movieId]);
 
+  if (!movie) {
+    return;
+  }
+
   const { poster_path, title, vote_average, overview, genres } = movie;
 
   return (
@@ -44,7 +50,11 @@ const MovieDetails = () => {
       {loading && <Loader />}
       <MovieInformation>
         <img
-          src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/w300/${poster_path}`
+              : placeholder
+          }
           alt={title}
         />
         <div>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 export const CastList = styled.ul`
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -7,7 +8,6 @@ export const CastList = styled.ul`
   row-gap: 20px;
   padding: 8px 0;
   margin-bottom: 16px;
-  border-bottom: 1px solid black;
 `;
 export const CastItem = styled.li`
   flex-basis: calc((960px - 25px * 3) / 4);

@@ -1,7 +1,7 @@
 import MoviesList from 'components/MoviesList/MoviesList';
 import { fetchTrendingMovies, onFetchError } from 'fetchAPI';
 import { useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Title } from './Home.styled';
 import { Loader } from 'components/Loader/Loader';
@@ -16,6 +16,7 @@ const Home = () => {
       try {
         const { results } = await fetchTrendingMovies();
         if (!results.length) {
+          toast.warn('No trending movies!!!');
           return;
         }
         setTrendingMovies(results);

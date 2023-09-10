@@ -5,6 +5,8 @@ import { fetchMovieCast } from 'fetchAPI';
 import { Loader } from 'components/Loader/Loader';
 import { CastItem, CastList, Text } from './Cast.styled';
 
+const placeholder = 'https://placehold.jp/200x300.png';
+
 const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
@@ -15,8 +17,11 @@ const Cast = () => {
     const fetchCast = async () => {
       try {
         const { cast } = await fetchMovieCast(movieId);
-        const visibleCast = cast.splice(0, 12);
-        setCast(visibleCast);
+        if (!cast.length) {
+          toast.warn('No available cast information ');
+          return;
+        }
+        setCast(cast);
       } catch (error) {
         toast.warn('No available cast information ');
       } finally {
@@ -33,7 +38,11 @@ const Cast = () => {
         {cast.map(({ id, profile_path, original_name, character }) => (
           <CastItem key={id}>
             <img
-              src={`https://image.tmdb.org/t/p/w200/${profile_path}`}
+              src={
+                profile_path
+                  ? `https://image.tmdb.org/t/p/w200/${profile_path}`
+                  : placeholder
+              }
               alt={original_name}
             />
             <Text>{original_name}</Text>
