@@ -1,11 +1,15 @@
 import MoviesList from 'components/MoviesList/MoviesList';
-import { fetchTrendingMovies } from 'fetchAPI';
+import { fetchTrendingMovies, onFetchError } from 'fetchAPI';
 import { useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Title } from './Home.styled';
+import { Loader } from 'components/Loader/Loader';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     const fetchPage = async () => {
@@ -14,14 +18,9 @@ const Home = () => {
         if (!results.length) {
           return;
         }
-        // const arrMovies = results.map(({ original_name }) => ({
-        //   original_name,
-        // }));
         setTrendingMovies(results);
-
-        // console.log(arrMovies);
       } catch (error) {
-        // console.log(error);
+        onFetchError();
       } finally {
         setLoading(false);
       }
@@ -32,6 +31,8 @@ const Home = () => {
   return (
     <div>
       <Title>Trending today</Title>
+      <ToastContainer autoClose={2000} position="top-center" />
+      {loading && <Loader />}
       <MoviesList movies={trendingMovies} />
     </div>
   );

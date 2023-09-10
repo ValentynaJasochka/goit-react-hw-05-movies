@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 export const SearchButton = styled('button')`
   font-size: 14px;
   font-weight: 500;

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const URL = 'https://api.themoviedb.org/3';
 const API_KEY = '1458aa5a0f3768251d977a5078bcec84';
@@ -29,33 +30,9 @@ export async function fetchMovieReview(id) {
   const response = await axios.get(url);
   return response.data;
 }
-// export const fetchSearchApi = async query => {
-//   const { data } = await axios.get(
-//     `/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=1&include_adult=false`
-//   );
-//   return data;
-// };
-// export const fetchMovieDetails = async id => {
-//   const { data } = await axios.get(
-//     `/movie/${id}?api_key=${API_KEY}&language=en-US`
-//   );
-//   return data;
-// };
-// export const fetchMovieGenres = async () => {
-//   const { data } = await axios.get(
-//     `/genre/movie/list?api_key=${API_KEY}&language=en-US`
-//   );
-//   return data;
-// };
-// export const fetchCast = async id => {
-//   const { data } = await axios.get(
-//     `/movie/${id}/credits?api_key=${API_KEY}&language=en-US`
-//   );
-//   return data;
-// };
-// export const fetchReview = async id => {
-//   const { data } = await axios.get(
-//     `/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
-//   );
-//   return data;
-// };
+
+export function onFetchError() {
+  toast.error(
+    'Oops! Something went wrong! Try reloading the page or make another choice!'
+  );
+}

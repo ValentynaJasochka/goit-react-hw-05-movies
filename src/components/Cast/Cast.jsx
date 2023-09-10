@@ -1,6 +1,8 @@
-import { fetchMovieCast } from 'fetchAPI';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { fetchMovieCast } from 'fetchAPI';
+import { Loader } from 'components/Loader/Loader';
 import { CastItem, CastList, Text } from './Cast.styled';
 
 const Cast = () => {
@@ -16,15 +18,17 @@ const Cast = () => {
         const visibleCast = cast.splice(0, 12);
         setCast(visibleCast);
       } catch (error) {
-        console.log(error);
+        toast.warn('No available cast information ');
       } finally {
         setLoading(false);
       }
     };
     fetchCast();
   }, [movieId]);
+
   return (
     <>
+      {loading && <Loader />}
       <CastList>
         {cast.map(({ id, profile_path, original_name, character }) => (
           <CastItem key={id}>

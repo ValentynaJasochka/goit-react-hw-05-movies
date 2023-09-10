@@ -1,7 +1,11 @@
-import { fetchMovieReview } from 'fetchAPI';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { fetchMovieReview } from 'fetchAPI';
+import { Loader } from 'components/Loader/Loader';
+
 const negativeStatement = "We don't have any reviews for this movie.";
+
 const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
@@ -14,26 +18,30 @@ const Reviews = () => {
 
         setReviews(results);
       } catch (error) {
-        console.log(error);
+        toast.warn('No available reviews information ');
       } finally {
         setLoading(false);
       }
     };
     fetchReview();
   }, [movieId]);
+
   return !reviews.length ? (
     <h3>{negativeStatement}</h3>
   ) : (
-    <ul>
-      {reviews.map(({ id, author, content }) => (
-        <li key={id}>
-          <p>
-            <span>Author:</span> {author}
-          </p>
-          <p>{content}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      {loading && <Loader />}
+      <ul>
+        {reviews.map(({ id, author, content }) => (
+          <li key={id}>
+            <p>
+              <span>Author:</span> {author}
+            </p>
+            <p>{content}</p>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 export default Reviews;
