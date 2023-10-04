@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef } from 'react';
 import { useParams, useLocation, Outlet } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { fetchMovie } from 'fetchAPI';
@@ -20,7 +20,7 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const backLinkHref = location.state;
+  const BackLinkLocationRef = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     setLoading(true);
@@ -45,7 +45,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      <BackLink to={backLinkHref?.from ?? '/'}>Go back</BackLink>
+      <BackLink to={BackLinkLocationRef.current}>Go back</BackLink>
       <ToastContainer autoClose={2000} position="top-center" />
       {loading && <Loader />}
       <MovieInformation>
